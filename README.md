@@ -26,7 +26,9 @@
 
 - 打开设备上的Hamibot，并在控制台内[添加机器人](https://hamibot.com/dashboard/robots)。此时，在设备上输入配对码，完成配对。
 
-- 然后，在开发内[创建脚本](https://hamibot.com/dashboard/scripts/create)，在下方上传文件。文件可在本仓库的[Github Release](https://github.com/gaobobo/Hamibot-XueXitongAuto/releases/latest/index.js)下载。
+- 然后，在开发内[创建脚本](https://hamibot.com/dashboard/scripts/create)，在下方上传文件。文件可在本仓库的[Github Release](https://github.com/gaobobo/Hamibot-XueXitongAuto/releases/latest/)下载。
+
+> 你也可以在[Github Release](https://github.com/gaobobo/Hamibot-XueXitongAuto/releases/latest/)中找到一键导入的按钮。
 
 - 之后，确认设备上的Hamibot的无障碍服务开启。
 
