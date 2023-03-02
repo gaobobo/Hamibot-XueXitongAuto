@@ -1,0 +1,12 @@
+{
+    "fileMark": {
+        "scriptFile": "src/index.js",
+        "configFile": "src/config.json"
+    },
+    "name": "",
+    "scriptId": "",
+    "executeRobot": {
+        "_id": "",
+        "name": ""
+    }
+}
