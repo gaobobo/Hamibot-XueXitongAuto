@@ -50,20 +50,27 @@
 
 - 克隆本仓库
 
-- 打开克隆后仓库内的`hamibot.config.json`，完善以下字段：
+- 在仓库根目录内新建文件`hamibot.config.json`填入以下字段：
 
 ```json
+{
+    "fileMark": {
+        "scriptFile": "src/index.js",
+        "configFile": "src/config.json"
+    },
     "name": "对应Hamibot开发内的脚本名称",
     "scriptId": "开发-选择对应的脚本-更多-设置-复制ID",
     "executeRobot": {
-        "_id": "机器人-对应机器人-更多-复制ID",
-        "name": "机器人名称"
+    "_id": "机器人-对应机器人-更多-复制ID",
+    "name": "机器人名称"
     }
+}
+
 ```
 
 > **注意：此文件内的id为敏感信息。本仓库的Git已经设置提交时忽略此文件。**
 > 
-> **在克隆其他非本仓库的其他副本时，务必检查`.gitignore`文件是否存在并忽略了文件`hamibot.config.json`。一般的，`GitHub`即使存在此文件也会隐藏。**
+> **在克隆其他非本仓库的其他副本时，务必检查`.gitignore`文件是否存在并忽略了文件`hamibot.config.json`。**
 >
 > **如使用其他的版本管理工具，请自行设置文件忽略或文件保护。**
 
