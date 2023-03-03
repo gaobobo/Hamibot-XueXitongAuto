@@ -1,21 +1,19 @@
 /**
- *              XueXitong Vedio-Courses Automatic Program        
- *                  Copyright (c) 2023 CoconutFloss
- * 
- *           This Hamibot_js could watch course automaticaly.
- *                         Not including practice.
- *                  Only for Android Device with Hamibot.
- *                  Open sorce with The MIT License (MIT).
- * 
- *  And:
- *     The module cannot work when use VS Code. So you may see MANY CLIPS REPEATED.
- *     I'm used to programming with java, so you may see some not common in js but common in java.
- * Known Issus(es): 
- *     When meet same course name but different course author may only finish first one.
- *     When meet low-speed warning, the program will be unspected.
- *     When low-speed cause loading, the program maybe unexpected.
- *     For the point has more than one vedio, the program only finish the first.
- * 
+    XueXitong Auto Watching Program
+    Copyright (C) 2023  Shibo Gao
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 function appPackageRetart (appPackageName) {     //restart app
