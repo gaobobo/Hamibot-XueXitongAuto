@@ -52,6 +52,9 @@ function xuexitongGetCoursesList (courseInfo) {   //get courses List
     });
     return courseInfo;
   }
+  var point;
+  var index;
+  var itemText;
   function xuexitongGetItemList(itemsList,item){
     var courseItems = id('sub_node').find();
 
@@ -63,10 +66,19 @@ function xuexitongGetCoursesList (courseInfo) {   //get courses List
     }
 
     courseItems.forEach(function(child){
+
         var itemIndex = child.findOne(id('tv_sub_index'));
         var itemPoint = child.findOne(id('tv_icon'));
-        if (itemIndex == null || itemPoint == null) return;
-        itemsList.push([itemIndex.text(),itemPoint.text()]);
+
+        if (itemIndex == null || itemPoint == null) return;     //jump same item.
+        if (itemIndex.text() == index) return;
+
+        index = itemIndex.text();
+        point = itemPoint.text();
+        // @ts-ignore
+        itemText = child.findOne(id('tv_title')).text();
+
+        itemsList.push([index,point,itemText]);
     });
   }
   function xuexitongVedioSelect (choice){
@@ -192,18 +204,39 @@ function xuexitongGetCoursesList (courseInfo) {   //get courses List
         }
     }
   }
+ function checkScrollEnd (clickItem) {
+    if(!text('已经到底了').find().empty()) {
+        back();
+        sleep(3000);
+        while(!click(clickItem));
+        sleep(3000); 
+        return;
+    }
+ }
+ var loadingTimes;
+ function ifLoadingForever (waittingTime,waittingTimes) {
+    while((!id('loading').find().empty()) || (!id('spin_kit').find().empty())) {
+        if (loadingTimes >= waittingTimes) {
+            loadingTimes = 0;
+            return true;
+        }
+
+        sleep(waittingTime);
+        loadingTimes += 1;
+    }
+    return false;
+ }
   //const SELECT = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 
 auto.waitFor();
 
 
-var appPackageName = 'com.chaoxing.mobile';
+ var appPackageName = 'com.chaoxing.mobile';
 
 //appPackageRetart(appPackageName);
-sleep(15000);
-xuexitongToCoursePage();
-
+//sleep(15000);
+//xuexitongToCoursePage();
 
 var courseInfo = new Array();
 do
@@ -221,14 +254,14 @@ xuexitongGetCoursesList(courseInfo);    //unknown reason, the last page won't ge
 //xuexitongToCoursePage();
 back();     //reset page location
 sleep(3000);
-click('课程');
-
+while(!click('课程'));
 
 courseInfo.forEach(function(item){
-    if (item[2] == true && item[3] == 1) return;    //check if end or finish
+    if (item[2] == true || item[3] == 1) return;    //check if end or finish
 
     sleep(3000);
     while(!click(item[0])){
+        checkScrollEnd('课程');
         scrollDown(0);
         sleep(3000);
     }
@@ -236,11 +269,18 @@ courseInfo.forEach(function(item){
     sleep(3000);
     click('我已阅读，开始学习');    //jump info
     while(click('取消'));
-    while(!click('章节',0));
-
+    while(!click('章节',0)){
+        if(ifLoadingForever(1000,6)){
+            back();
+            sleep(3000);
+            click(item[0]);
+        }
+    };
+    
     var courseFinishedUIObject = id('tv_job_unfinish_count').findOnce();
     var courseTotalUIObject = id('tv_job_total_count').findOnce();
 
+    // @ts-ignore
     if (courseFinishedUIObject != null && courseTotalUIObject != null) {    //check percent if it has.
         var courseFinished = courseFinishedUIObject.text();
         var courseTotal = courseTotalUIObject.text().slice(3);
@@ -248,7 +288,7 @@ courseInfo.forEach(function(item){
         if (courseFinished == courseTotal) {
             item[3] = 1;
             back();
-            sleep(2000);
+            sleep(3000);
             return;
         }
     }
@@ -290,9 +330,11 @@ courseInfo.forEach(function(item){
 
     itemsList.forEach(function(index){
         if (index[1] == '') return;
+        if (index[2] == '阅读' && index[2] == '问卷调查') return;
 
         while(!click(index[0])){
         //while(!click('10.1')){
+            checkScrollEnd(item[0]);
             scrollDown(0);
             sleep(3000);
         };
@@ -300,9 +342,44 @@ courseInfo.forEach(function(item){
         sleep(3000);
         text('视频').find().forEach(function(child){
             // @ts-ignore
-            if (child.parent().className() == 'android.support.v7.app.ActionBar$Tab') child.parent().click();
+            if (child.parent().className() == 'android.support.v7.app.ActionBar$Tab') {
+                // @ts-ignore
+                if(!child.parent().click) {
+                    if(ifLoadingForever(1000,6)){
+                        back();
+                        sleep(3000);
+                        click(index[0]);
+                    }
+                }
+
+                
+            }
+
         })
         sleep(3000);
+
+        if(ifLoadingForever(1000,6)){
+            back();
+            sleep(3000);
+            click(index[0]);
+            sleep(3000);
+            text('视频').find().forEach(function(child){
+                // @ts-ignore
+                if (child.parent().className() == 'android.support.v7.app.ActionBar$Tab') {
+                    // @ts-ignore
+                    if(!child.parent().click) {
+                        if(ifLoadingForever(1000,6)){
+                            back();
+                            sleep(3000);
+                            click(index[0]);
+                        }
+                    }
+    
+                    
+                }
+    
+            })
+        }
 
         // @ts-ignore
         if(!text('任务点已完成').find().empty()) {
@@ -320,6 +397,13 @@ courseInfo.forEach(function(item){
             sleep(15000);
             while(id('start').findOnce() == null) {
                 click('重试');
+                sleep(3000);
+                if(ifLoadingForever(2000,4)){
+                    back();
+                    sleep(3000);
+                    // @ts-ignore
+                    player.findOne(className('Button')).click();
+                }
                 xuexitongVedioAnwser();
                 sleep(15000);
             }
