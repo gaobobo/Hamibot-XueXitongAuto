@@ -1,4 +1,4 @@
-<div align="center">该项目不再更新，您可以使用该[电脑浏览器脚本](https://scriptcat.org/zh-CN/search?keyword=%E5%AD%A6%E4%B9%A0%E9%80%9A)。</div>
+> 该项目不再更新，您可以使用该[电脑浏览器脚本](https://scriptcat.org/zh-CN/search?keyword=%E5%AD%A6%E4%B9%A0%E9%80%9A)。
 
 <div align="center">
 
